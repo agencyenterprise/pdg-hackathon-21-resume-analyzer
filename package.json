@@ -4,10 +4,13 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "build": "cross-env INLINE_RUNTIME_CHUNK=false react-scripts build",
-    "watch": "cross-env INLINE_RUNTIME_CHUNK=false cra-build-watch",
+    "build": "cross-env INLINE_RUNTIME_CHUNK=false craco build",
+    "watch": "cross-env INLINE_RUNTIME_CHUNK=false nodemon --watch src -e ts,tsx,css,html,js --exec \"npm run build\"",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+  },
+  "watch": {
+    "build": "{src}/*.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -28,6 +31,7 @@
     ]
   },
   "dependencies": {
+    "@craco/craco": "^6.4.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -44,6 +48,7 @@
   "devDependencies": {
     "@types/chrome": "0.0.163",
     "cra-build-watch": "^3.4.0",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.15"
   }
 }
