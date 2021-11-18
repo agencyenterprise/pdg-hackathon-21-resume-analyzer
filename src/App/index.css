@@ -1,13 +1,17 @@
 body {
   width: 600px;
-  height: 400px;
+  height: 600px;
+}
+
+.App {
+  padding-bottom: 2em;
 }
 
 .App strong {
   padding-left: 0.25em;
 }
 
-h2 {
+h3 {
   padding: 0.25em 0.5em;
 }
 
@@ -20,11 +24,17 @@ h2 {
   width: 50%;
 }
 
-.skill-block h2 {
+.skill-block h3 {
   background-color: #333;
   color: #fff;
 }
 
 .skill-list {
   padding: 0 0.5em;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.pad {
+  padding: 1em 1em 0 1em;
 }
