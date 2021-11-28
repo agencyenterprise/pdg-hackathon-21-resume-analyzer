@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Resume Analyser",
+  "name": "Resume Analyzer",
   "description": "Summarize information about resumes",
   "version": "1.0.1",
   "action": {
