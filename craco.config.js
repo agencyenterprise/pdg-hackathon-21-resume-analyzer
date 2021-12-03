@@ -8,7 +8,7 @@ module.exports = {
             env === 'development' && require.resolve('react-dev-utils/webpackHotDevClient'),
             paths.appIndexJs,
           ].filter(Boolean),
-          content: './src/content.ts',
+          content: './src/content/index.ts',
         },
         output: {
           ...webpackConfig.output,
@@ -17,6 +17,7 @@ module.exports = {
         optimization: {
           ...webpackConfig.optimization,
           runtimeChunk: false,
+          minimize: false,
         },
       }
     },

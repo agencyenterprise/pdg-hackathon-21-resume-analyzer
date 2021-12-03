@@ -9,12 +9,12 @@ const getColor = (skill: string) => {
   return colorSets.find((c) => c.skills.includes(skill?.toLowerCase()))?.color || '#000000'
 }
 
-const parseHtml = async ({ currentTab, setSkills, setYears, message }) => {
+const parseHtml = async ({ currentTab, setSkills, setError, setYears, message }) => {
   await new Promise((resolve) => {
     chrome.tabs.sendMessage(
       currentTab.id,
       message,
-      ({ html, timeParts, complete }: { html: string; timeParts: string; complete: boolean }) => {
+      ({ html, err, timeParts, complete }: { html: string; err: any; timeParts: string; complete: boolean }) => {
         const haystack = html.toLowerCase()
         const frontendSkills = new Set(haystack.match(/typescript|javascript|react|angular|shopify/gi))
         const backendSkills = new Set(
@@ -52,6 +52,8 @@ const parseHtml = async ({ currentTab, setSkills, setYears, message }) => {
 
         setYears(timeParts)
 
+        setError(err)
+
         if (complete) {
           resolve(true)
         }
@@ -63,6 +65,7 @@ const parseHtml = async ({ currentTab, setSkills, setYears, message }) => {
 export const App = () => {
   const [loading, setLoading] = React.useState(false)
   const [years, setYears] = React.useState('0')
+  const [error, setError] = React.useState<string>()
   const [skill, setSkills] = React.useState({
     frontend: [],
     backend: [],
@@ -83,8 +86,8 @@ export const App = () => {
       }
 
       setLoading(true)
-      await parseHtml({ currentTab, setSkills, setYears, message: { async: false } })
-      await parseHtml({ currentTab, setSkills, setYears, message: { async: true } })
+      await parseHtml({ currentTab, setSkills, setError, setYears, message: { async: false } })
+      await parseHtml({ currentTab, setSkills, setError, setYears, message: { async: true } })
       setLoading(false)
     }
     run()
@@ -92,7 +95,7 @@ export const App = () => {
 
   return (
     <div className="App">
-      <div className="pad">{years}</div>
+      <div className="pad">{years !== '0' ? years : ''}</div>
       <div className="skills">
         {skillTypes.map((type) => (
           <div key={type} className={`skill-block ${type}`}>
@@ -107,6 +110,7 @@ export const App = () => {
           </div>
         ))}
       </div>
+      {error ? 'There was an error, data might not be 100% accurate' : ''}
       {loading ? <hr /> : null}
       <div>{loading ? 'Loading...' : ''}</div>
     </div>
